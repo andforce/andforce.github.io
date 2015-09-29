@@ -1,0 +1,67 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="alternative" href="/atom.xml" title="andforce" type="application/atom+xml"><link rel="icon" href="/favicon.png"><title>Apk签名总汇 - andforce</title><link rel="stylesheet" href="/css/main.css" type="text/css"><!--[if lt IE 9]><script>(function(a,b){a="abbr article aside audio bdi canvas data datalist details dialog figcaption figure footer header hgroup main mark meter nav output progress section summary template time video".split(" ");for(b=a.length-1;b>=0;b--)document.createElement(a[b])})()</script><![endif]--></head><body><header class="head"><h1 class="head-title u-fl"><a href="/">andforce</a></h1><nav class="head-nav u-fr"><ul class="head-nav__list"><li class="head-nav__item"><a href="/archives" class="head-nav__link">文章</a></li><li class="head-nav__item"><a href="http://weibo.com/andforce" class="head-nav__link">微博</a></li><li class="head-nav__item"><a href="https://github.com/andforce" class="head-nav__link">GitHub</a></li><li class="head-nav__item"><a href="https://bintray.com/andforce" class="head-nav__link">Bintray</a></li></ul></nav></header><main class="main"><article class="post"><header class="post__head"><time datetime="2015-09-22T11:47:45.000Z" class="post__time">September 22, 2015</time><h1 class="post__title"><a href="/2015/09/22/apk-keystore/">Apk签名总汇</a></h1><hr/></header><div class="post__main echo"><p>开发中,Apk签名是一件不大也不小的事,如果你做过<code>微博</code>相关的开发,你可能遇到如下情景:</p>
+<blockquote>
+<p>用Eclipse或者AS直接点run生成的apk跑在手机上根本不能授权成功,每次需要导出release版本,很烦.</p>
+</blockquote>
+<p>如果你基于系统源码开发或者二次开发系统预置App,你的流程可能是:</p>
+<blockquote>
+<p>mm 或者 mmm 编译出apk,之后再push 到/system/app/ 下,或者用adb install -r 安装到手机.<br>否根本无法安装,因为签名不一样.</p>
+</blockquote>
+<p>因此我搜集整理了如下内容,解决了以上两个难题,任何app都可以直接再IDE中直接run,并debug.</p>
+<h1 id="日常开发">日常开发</h1><hr>
+<h2 id="修改Eclips或者Android_Studio的默认签名文件">修改Eclips或者Android Studio的默认签名文件</h2><blockquote>
+<p>通常情况下,我们debug版本的apk和正式release的apk签名是不一样.特别开发一些有签名限制<br>的App的时候,就造成了调试上的不方便.</p>
+</blockquote>
+<h3 id="如何修改?">如何修改?</h3><ul>
+<li><p>Eclipse</p>
+<blockquote>
+<p>Eclips -&gt; Window -&gt; Preference -&gt; Androi -&gt; Buil.<br>在 <code>Custom debug keystore</code> 指定自己的 <code>debug.keystore</code> 就可以了.(注意签名文件的名字<br>不必是<code>debug.keystore</code>).</p>
+</blockquote>
+</li>
+<li><p>Androi的 Studio</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">android &#123;&#10;    signingConfigs &#123;&#10;        debug &#123;&#10;            storeFile file(&#34;debug.keystore&#34;)&#10;        &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="疑问?">疑问?</h3><blockquote>
+<p>如何创建自己的<code>debug.keystore</code>?</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">keytool -genkey -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android -keyalg RSA -validity 14000&#10;// &#36825;&#26679;&#20320;&#23601;&#21019;&#24314;&#20102;&#19968;&#20010; debug.keystore</span><br></pre></td></tr></table></figure>
+<h3 id="如何把现有签名文件,转换成Eclipse或Android_Studio可用的debug-keystore?">如何把现有签名文件,转换成Eclipse或Android Studio可用的<code>debug.keystore</code>?</h3><blockquote>
+<p>假如你现在的签名文件是:my.keystore.</p>
+</blockquote>
+<ul>
+<li>修改<code>my.keystore</code> 的密码为:<code>android</code></li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">keytool -storepasswd -keystore my.keystore</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改<code>my.keystore</code> 的<code>alias</code>为:<code>androiddebugkey</code></li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">keytool -changealias -keystore my.keystore -alias my_name -destalias androiddebugkey</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改<code>alias</code> 的密码为:<code>android</code></li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">keytool -keypasswd -keystore my.keystore -alias androiddebugkey</span><br></pre></td></tr></table></figure>
+<p>执行完上面三步,你的<code>debug.keystore</code> 就创建完成了,替换上去就行.</p>
+<h1 id="系统源码开发">系统源码开发</h1><hr>
+<h2 id="源码签名文件在哪?">源码签名文件在哪?</h2><blockquote>
+<p>SOURCE_CODE/build/target/product/security/</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">$:ls&#10;media.pk8       platform.pk8       README    shared.pk8       signapk.jar  testkey.x509.pem&#10;media.x509.pem  platform.x509.pem  Root.zip  shared.x509.pem  testkey.pk8  update.zip</span><br></pre></td></tr></table></figure>
+<h2 id="但如果你在一家手机厂商工作,厂商一般不会直接用而是会进行定制:">但如果你在一家手机厂商工作,厂商一般不会直接用而是会进行定制:</h2><blockquote>
+<p>SOURCE_CODE/vendor/CUSTOM_VENTER_NAME/security/</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">$: ls&#10;media.pk8       platform.pk8       releasekey.pk8       shared.pk8       testkey.pk8&#10;media.x509.pem  platform.x509.pem  releasekey.x509.pem  shared.x509.pem  testkey.x509.pem</span><br></pre></td></tr></table></figure>
+<h2 id="如何用系统签名文件签名apk?">如何用系统签名文件签名apk?</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">java -jar platform.x509.pem platform.pk8 UnSign.apk Signed.apk</span><br></pre></td></tr></table></figure>
+<h2 id="zipalign优化apk">zipalign优化apk</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">zipalign -v 4 MyDemo_signed.apk MyDemo_new.apk</span><br></pre></td></tr></table></figure>
+<h2 id="是否用zipalign优化过">是否用zipalign优化过</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">zipalign -c -v 4 MyDemo.apk</span><br></pre></td></tr></table></figure>
+<h2 id="如何把platform-x509-pem_platform-pk8_转成debug-keystore?">如何把<code>platform.x509.pem platform.pk8</code> 转成<code>debug.keystore</code>?</h2><ul>
+<li>生成shared.priv.pem</li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">openssl pkcs8 -in platform.pk8 -inform DER -outform PEM -out shared.priv.pem -nocrypt</span><br></pre></td></tr></table></figure>
+<ul>
+<li>生成pkcs12</li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">openssl pkcs12 -export -in platform.x509.pem -inkey shared.priv.pem -out shared.pk12 -name androiddebugkey&#10;// &#22914;&#26524;&#29983;&#25104;&#30340;`debug.keystore`&#35201;&#29992;&#22312;Eclipse&#20013;&#20351;&#29992;,&#35831;&#36755;&#20837;&#23494;&#30721;:`android`,&#21542;&#21017;&#35831;&#36755;&#20837;&#33258;&#24049;&#30340;&#31614;&#21517;&#21363;&#21487;.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>生成<code>debug.keystore</code></li>
+</ul>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">keytool -importkeystore -deststorepass android -destkeypass android -destkeystore debug.keystore -srckeystore shared.pk12 -srcstoretype PKCS12 -srcstorepass android -alias androiddebugkey</span><br></pre></td></tr></table></figure></div><footer class="post__foot u-cf"><a class="post__foot-link u-fr"></a></footer></article></main><footer class="foot"><div class="foot-copy u-fl">&copy; 2015 andforce<bdi> Theme by <a href="https://github.com/andforce/hexo-theme-andforce" >andforce</a></bdi></div><menu class="page-menu u-fr"><li class="page-menu__item"><a title="Previous" href="/2015/09/26/dev-software/" class="page-menu__link icon-arrow-left"></a></li><li class="page-menu__item"><span title="Next" class="page-menu__link icon-arrow-right page-menu__link--disabled"></span></li></menu></footer></body></html>
