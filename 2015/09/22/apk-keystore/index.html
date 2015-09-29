@@ -7,8 +7,7 @@
 <p>mm 或者 mmm 编译出apk,之后再push 到/system/app/ 下,或者用adb install -r 安装到手机.<br>否根本无法安装,因为签名不一样.</p>
 </blockquote>
 <p>因此我搜集整理了如下内容,解决了以上两个难题,任何app都可以直接再IDE中直接run,并debug.</p>
-<h1 id="日常开发">日常开发</h1><hr>
-<h2 id="修改Eclips或者Android_Studio的默认签名文件">修改Eclips或者Android Studio的默认签名文件</h2><blockquote>
+<h1 id="日常开发">日常开发</h1><h2 id="修改Eclips或者Android_Studio的默认签名文件">修改Eclips或者Android Studio的默认签名文件</h2><blockquote>
 <p>通常情况下,我们debug版本的apk和正式release的apk签名是不一样.特别开发一些有签名限制<br>的App的时候,就造成了调试上的不方便.</p>
 </blockquote>
 <h3 id="如何修改?">如何修改?</h3><ul>
@@ -41,8 +40,7 @@
 </ul>
 <figure class="highlight"><table><tr><td class="code"><pre><span class="line">keytool -keypasswd -keystore my.keystore -alias androiddebugkey</span><br></pre></td></tr></table></figure>
 <p>执行完上面三步,你的<code>debug.keystore</code> 就创建完成了,替换上去就行.</p>
-<h1 id="系统源码开发">系统源码开发</h1><hr>
-<h2 id="源码签名文件在哪?">源码签名文件在哪?</h2><blockquote>
+<h1 id="系统源码开发">系统源码开发</h1><h2 id="源码签名文件在哪?">源码签名文件在哪?</h2><blockquote>
 <p>SOURCE_CODE/build/target/product/security/</p>
 </blockquote>
 <figure class="highlight"><table><tr><td class="code"><pre><span class="line">$:ls&#10;media.pk8       platform.pk8       README    shared.pk8       signapk.jar  testkey.x509.pem&#10;media.x509.pem  platform.x509.pem  Root.zip  shared.x509.pem  testkey.pk8  update.zip</span><br></pre></td></tr></table></figure>

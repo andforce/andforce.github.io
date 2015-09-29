@@ -1,25 +1,21 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="alternative" href="/atom.xml" title="andforce" type="application/atom+xml"><link rel="icon" href="/favicon.png"><title>andforce</title><link rel="stylesheet" href="/css/main.css" type="text/css"><!--[if lt IE 9]><script>(function(a,b){a="abbr article aside audio bdi canvas data datalist details dialog figcaption figure footer header hgroup main mark meter nav output progress section summary template time video".split(" ");for(b=a.length-1;b>=0;b--)document.createElement(a[b])})()</script><![endif]--></head><body><header class="head"><h1 class="head-title u-fl"><a href="/">andforce</a></h1><nav class="head-nav u-fr"><ul class="head-nav__list"><li class="head-nav__item"><a href="/archives" class="head-nav__link">文章</a></li><li class="head-nav__item"><a href="http://weibo.com/andforce" class="head-nav__link">微博</a></li><li class="head-nav__item"><a href="https://github.com/andforce" class="head-nav__link">GitHub</a></li><li class="head-nav__item"><a href="https://bintray.com/andforce" class="head-nav__link">Bintray</a></li></ul></nav></header><main class="main"><article class="post"><header class="post__head"><time datetime="2015-09-27T03:08:33.000Z" class="post__time">September 27, 2015</time><h1 class="post__title"><a href="/2015/09/27/theme-demo/">博客主题Denmo</a></h1><hr/></header><div class="post__main echo"><p><img src="http://ww2.sinaimg.cn/mw690/6ff3843bjw1ek0d43jkv1j21hc0u0dh3.jpg" alt="图片"></p>
 <p><a href="http://andforce.com">这是一个连接Demo</a></p>
-<h1 id="一级标题">一级标题</h1><h2 id="二级标题">二级标题</h2><h3 id="三级标题">三级标题</h3><h4 id="四级标题">四级标题</h4><h5 id="五级标题">五级标题</h5><h6 id="六级标题">六级标题</h6><hr>
-<ol>
+<h1 id="一级标题">一级标题</h1><h2 id="二级标题">二级标题</h2><h3 id="三级标题">三级标题</h3><h4 id="四级标题">四级标题</h4><h5 id="五级标题">五级标题</h5><h6 id="六级标题">六级标题</h6><h2 id="有序列表展示">有序列表展示</h2><ol>
 <li>有序列表</li>
 <li>有序列表</li>
 <li>有序列表</li>
 </ol>
-<hr>
-<ul>
+<h1 id="无序列表展示">无序列表展示</h1><ul>
 <li>无序列表</li>
 <li>无序列表</li>
 <li>无序列表</li>
 </ul>
-<hr>
-<blockquote>
+<h2 id="引用展示">引用展示</h2><blockquote>
 <p>引用引用引用引用引用引用引用引用引用引用引用引用引用引用引用引用引用引用</p>
 </blockquote>
-<h2 id="javascript_代码块"><code>javascript</code> 代码块</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">KeyboardFrameLayout</span> <span class="keyword">extends</span> <span class="title">FrameLayout</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    private KeyboardHelper mHelper;</span><br><span class="line"></span><br><span class="line">    public KeyboardFrameLayout(Context context, AttributeSet attrs, int defStyle) &#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyle);</span><br><span class="line">        mHelper = <span class="keyword">new</span> KeyboardHelper(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public KeyboardFrameLayout(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line">        mHelper = <span class="keyword">new</span> KeyboardHelper(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public KeyboardFrameLayout(Context context) &#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">        mHelper = <span class="keyword">new</span> KeyboardHelper(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public <span class="keyword">void</span> setOnKeyboardStateListener(OnKeyboardStateChangeListener listener) &#123;</span><br><span class="line">        mHelper.setOnKeyboardStateListener(listener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public KeyboardHelper getKeyBoardHelper() &#123;</span><br><span class="line">        <span class="keyword">return</span> mHelper;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected <span class="keyword">void</span> onLayout(boolean changed, int l, int t, int r, int b) &#123;</span><br><span class="line">        <span class="keyword">super</span>.onLayout(changed, l, t, r, b);</span><br><span class="line">        mHelper.init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="java_代码块"><code>java</code> 代码块</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">KeyboardFrameLayout</span> <span class="keyword">extends</span> <span class="title">FrameLayout</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> KeyboardHelper mHelper;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">KeyboardFrameLayout</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyle);</span><br><span class="line">        mHelper = <span class="keyword">new</span> KeyboardHelper(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">KeyboardFrameLayout</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line">        mHelper = <span class="keyword">new</span> KeyboardHelper(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">KeyboardFrameLayout</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">        mHelper = <span class="keyword">new</span> KeyboardHelper(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOnKeyboardStateListener</span><span class="params">(OnKeyboardStateChangeListener listener)</span> </span>&#123;</span><br><span class="line">        mHelper.setOnKeyboardStateListener(listener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> KeyboardHelper <span class="title">getKeyBoardHelper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mHelper;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onLayout(changed, l, t, r, b);</span><br><span class="line">        mHelper.init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="shell代码块"><code>shell</code>代码块</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">WDYdeMacBook-Pro:vendor andforce$ ls -al&#10;total 24&#10;drwxr-xr-x  5 andforce  staff   170  9 27 10:56 .&#10;drwxr-xr-x  8 andforce  staff   272  9 27 08:43 ..&#10;-rw-r--r--  1 andforce  staff  2321  9 27 08:43 _echo.styl&#10;-rw-r--r--  1 andforce  staff  1053  9 27 08:43 _highlight.styl&#10;-rw-r--r--  1 andforce  staff  2226  9 27 08:43 _normalize.styl</span><br></pre></td></tr></table></figure></div><footer class="post__foot u-cf"><a class="post__foot-link u-fr"></a></footer></article><article class="post"><header class="post__head"><time datetime="2015-09-26T03:43:44.000Z" class="post__time">September 26, 2015</time><h1 class="post__title"><a href="/2015/09/26/dev-software/">一个程序员的软件</a></h1><hr/></header><div class="post__main echo"><p>工欲善其事，必先利其器。列举一下我平时开发时候用到的软件。</p>
-<h1 id="完整软件">完整软件</h1><hr>
-<ul>
+<h1 id="完整软件">完整软件</h1><ul>
 <li><p><a href="http://www.cockos.com/licecap/" target="_blank" rel="external">Licecap</a><br>简单易用的录制<code>gif</code>的软件.</p>
 </li>
 <li><p><a href="http://www.charlesproxy.com/" target="_blank" rel="external">Charles</a><br>Http&amp;Https抓包利器.</p>
@@ -31,8 +27,7 @@
 <li><p><a href="http://www.bettertouchtool.net/" target="_blank" rel="external">BetterToucTool</a><br>快捷按键定制神器</p>
 </li>
 </ul>
-<h1 id="软件插件">软件插件</h1><hr>
-<ul>
+<h1 id="软件插件">软件插件</h1><ul>
 <li><p><a href="https://chrome.google.com/webstore/detail/capture-webpage-screensho/mcbpblocgmgfnpjjppndjkmgjaogfceg" target="_blank" rel="external">FireShot</a><br>Chrome插件，可以滚动截图网页.</p>
 </li>
 <li><p><a href="https://chrome.google.com/webstore/detail/evernote-web-clipper/pioclpoplcdbaefihamjohnefbikjilc" target="_blank" rel="external">印象笔记-剪藏</a><br>一键收藏网页内容</p>
@@ -47,8 +42,7 @@
 <p>mm 或者 mmm 编译出apk,之后再push 到/system/app/ 下,或者用adb install -r 安装到手机.<br>否根本无法安装,因为签名不一样.</p>
 </blockquote>
 <p>因此我搜集整理了如下内容,解决了以上两个难题,任何app都可以直接再IDE中直接run,并debug.</p>
-<h1 id="日常开发">日常开发</h1><hr>
-<h2 id="修改Eclips或者Android_Studio的默认签名文件">修改Eclips或者Android Studio的默认签名文件</h2><blockquote>
+<h1 id="日常开发">日常开发</h1><h2 id="修改Eclips或者Android_Studio的默认签名文件">修改Eclips或者Android Studio的默认签名文件</h2><blockquote>
 <p>通常情况下,我们debug版本的apk和正式release的apk签名是不一样.特别开发一些有签名限制<br>的App的时候,就造成了调试上的不方便.</p>
 </blockquote>
 <h3 id="如何修改?">如何修改?</h3><ul>
@@ -81,8 +75,7 @@
 </ul>
 <figure class="highlight"><table><tr><td class="code"><pre><span class="line">keytool -keypasswd -keystore my.keystore -alias androiddebugkey</span><br></pre></td></tr></table></figure>
 <p>执行完上面三步,你的<code>debug.keystore</code> 就创建完成了,替换上去就行.</p>
-<h1 id="系统源码开发">系统源码开发</h1><hr>
-<h2 id="源码签名文件在哪?">源码签名文件在哪?</h2><blockquote>
+<h1 id="系统源码开发">系统源码开发</h1><h2 id="源码签名文件在哪?">源码签名文件在哪?</h2><blockquote>
 <p>SOURCE_CODE/build/target/product/security/</p>
 </blockquote>
 <figure class="highlight"><table><tr><td class="code"><pre><span class="line">$:ls&#10;media.pk8       platform.pk8       README    shared.pk8       signapk.jar  testkey.x509.pem&#10;media.x509.pem  platform.x509.pem  Root.zip  shared.x509.pem  testkey.pk8  update.zip</span><br></pre></td></tr></table></figure>
