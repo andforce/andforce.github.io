@@ -465,7 +465,7 @@ video {
 }
 .highlight .comment,
 .highlight .title {
-  color: #999;
+  color: #795da3;
 }
 .highlight .variable,
 .highlight .attribute,
@@ -515,9 +515,11 @@ video {
 .highlight .coffeescript .title {
   color: #69c;
 }
-.highlight .keyword,
+.highlight .keyword {
+  color: #a71d5d;
+}
 .highlight .javascript .function {
-  color: #c9c;
+  color: #795da3;
 }
 /* ==========================================================================
    Partial
