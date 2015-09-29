@@ -291,6 +291,7 @@ video {
   line-height: 1.6em;
 }
 .echo a {
+  line-height: 1.2em;
   color: #258fb8;
 }
 .echo a:hover,
@@ -299,16 +300,42 @@ video {
   text-decoration: underline;
 }
 .echo h1 {
-  line-height: 1;
+  padding-bottom: 0.3em;
+  font-size: 2.25em;
+  line-height: 1.2;
+  border-bottom: 2px solid #eee;
 }
+.echo h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.75em;
+  line-height: 1.225;
+  border-bottom: 2px solid #eee;
+}
+.echo h3 {
+  font-size: 1.5em;
+  line-height: 1.43;
+}
+.echo h4 {
+  font-size: 1.25em;
+}
+.echo h5 {
+  font-size: 1em;
+}
+.echo h6 {
+  font-size: 1em;
+  color: #777;
+}
+.echo h1,
 .echo h2,
 .echo h3,
 .echo h4,
 .echo h5,
 .echo h6 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
   font-weight: bold;
-  line-height: 1;
-  margin: 1em 0;
+  line-height: 1.4;
 }
 .echo h1 {
   font-size: 30px;
@@ -336,7 +363,6 @@ video {
 .echo figure,
 .echo form,
 .echo hr,
-.echo img,
 .echo ol,
 .echo pre,
 .echo table,
@@ -351,6 +377,7 @@ video {
   background: #eee;
 }
 .echo img {
+  margin: 0;
   max-width: 100%;
   height: auto;
 }
@@ -576,7 +603,7 @@ video {
   box-shadow: 1px 2px 3px #ddd;
 }
 .post__head {
-  margin: 50px 50px 10px 50px;
+  margin: 3em 3em 0 3em;
 }
 .post__head hr {
   margin: 1em auto;
@@ -608,7 +635,7 @@ video {
   width: 100%;
 }
 .post__main {
-  margin: 20px 50px 50px 50px;
+  margin: 0 3em;
 }
 .highlight {
   width: 100%;
