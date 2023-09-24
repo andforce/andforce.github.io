@@ -1,4 +1,4 @@
 {
-  "self_azure_api_key_enable": false,
+  "self_azure_api_key_enable": true,
   "self_openai_key_enable": false
 }
