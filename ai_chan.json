@@ -1,5 +1,4 @@
 {
-  "min_effect_version_code": 2023081616,
-  "self_azure_api_key_enable": false,
-  "self_openai_key_enable": false
+  "self_azure_api_key_max_enable_version_code": 2023081616,
+  "self_openai_key_max_enable_version_code": 2023081616
 }
