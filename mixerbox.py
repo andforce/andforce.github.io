@@ -53,6 +53,7 @@ for cookie in cookies:
 # 检查git有没有变化，如果有变化就提交
 os.system("git add .")
 os.system("git commit -m 'update cookie'")
+os.system("git push --rebase")
 os.system("git push")
 
 
