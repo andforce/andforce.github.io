@@ -93,7 +93,6 @@ def create_driver(enable_ui=False):
     chrome_options.add_argument("--user-data-dir=" + cache_dir)
     chrome_options.add_argument('--no-sandbox')  # 解决DevToolsActivePort文件不存在的报错
     chrome_options.add_argument('--window-size=580,1080')  # 设置浏览器分辨率
-    chrome_options.add_argument('--ignore-certificate-errors')
     # chrome_options.add_argument('--start-maximized')
     # headless模式
     if not enable_ui:
