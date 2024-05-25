@@ -50,6 +50,12 @@ for cookie in cookies:
         with open("./settings.json", "w") as f:
             json.dump(settings_json, f, indent=2)
 
+# 检查git有没有变化，如果有变化就提交
+os.system("git add .")
+os.system("git commit -m 'update cookie'")
+os.system("git push")
+
+
 driver.quit()
 
 # # 从Chrome中，读取https://mixerbox.ai/的cookie
