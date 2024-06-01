@@ -42,7 +42,7 @@ if err:
     print(err)
     sys.exit(1)
 else:
-    print(out)
+    print(out.decode("utf-8"))
 
 # 检查git有没有变化，如果有变化就提交
 os.system("git add .")
