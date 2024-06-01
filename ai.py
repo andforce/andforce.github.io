@@ -5,6 +5,13 @@ import time
 import subprocess
 
 from chrome_driver import create_driver
+from webdriver_manager.chrome import ChromeDriverManager
+
+# 打印chromedriver版本
+chrome_driver_manager = ChromeDriverManager()
+print("Chrome version:" + chrome_driver_manager.driver.get_browser_version_from_os())
+chrome_driver_version = chrome_driver_manager.driver.get_driver_version_to_download()
+print("ChromeDriver version:" + chrome_driver_version)
 
 # 打印当前时间
 print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
