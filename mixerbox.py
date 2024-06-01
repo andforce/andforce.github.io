@@ -2,8 +2,15 @@ import json
 import os
 import sys
 import time
+import subprocess
 
 from chrome_driver import create_driver
+
+
+def run_command(command):
+    p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = p.communicate()
+    return out, err
 
 
 def read_json_from_file(file_path):
@@ -29,6 +36,13 @@ for cookie in cookies:
         # json格式化后写入文件
         with open("./settings.json", "w") as f:
             json.dump(settings_json, f, indent=2)
+
+out, err = run_command("git status")
+if err:
+    print(err)
+    sys.exit(1)
+else:
+    print(out)
 
 # 检查git有没有变化，如果有变化就提交
 os.system("git add .")
