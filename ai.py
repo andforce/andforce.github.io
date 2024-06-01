@@ -50,7 +50,6 @@ for cookie in cookies:
 out, err = run_command("git status")
 if err:
     print(err)
-    sys.exit(1)
 else:
     git_status = out.decode("utf-8")
     if "nothing to commit" in git_status or "无文件要提交，干净的工作区" in git_status:
