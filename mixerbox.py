@@ -16,6 +16,11 @@ def run_command(command):
     return out, err
 
 
+def read_text_from_file(file_path):
+    with open(file_path, "r") as f:
+        return f.read()
+
+
 def read_json_from_file(file_path):
     with open(file_path, "r") as f:
         return json.load(f)
@@ -27,7 +32,9 @@ driver = create_driver(enable_ui=True)
 if driver is None:
     print("创建driver失败")
     sys.exit(1)
-driver.get("https://mixerbox.ai/")
+
+host = read_text_from_file("./host.txt")
+driver.get(host)
 
 time.sleep(5)
 
