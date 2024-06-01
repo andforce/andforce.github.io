@@ -6,6 +6,8 @@ import subprocess
 
 from chrome_driver import create_driver
 
+# 打印当前时间
+print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
 
 def run_command(command):
     p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -42,6 +44,11 @@ if err:
     print(err)
     sys.exit(1)
 else:
+    git_status = out.decode("utf-8")
+    if "nothing to commit" in git_status or "无文件要提交，干净的工作区" in git_status:
+        print("没有变化")
+        driver.quit()
+        exit(0)
     print(out.decode("utf-8"))
 
 # 检查git有没有变化，如果有变化就提交
