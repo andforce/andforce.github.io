@@ -47,7 +47,8 @@ if err:
 else:
     git_status = out.decode("utf-8")
     if "nothing to commit" in git_status or "无文件要提交，干净的工作区" in git_status:
-        print("没有变化")
+        print("没有变化, 拉取最新代码")
+        os.system("git pull --rebase")
         driver.quit()
         exit(0)
     print(out.decode("utf-8"))
