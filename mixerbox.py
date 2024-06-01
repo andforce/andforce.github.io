@@ -9,6 +9,7 @@ from chrome_driver import create_driver
 # 打印当前时间
 print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
 
+
 def run_command(command):
     p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
