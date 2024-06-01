@@ -42,9 +42,7 @@ time.sleep(5)
 cookies = driver.get_cookies()
 for cookie in cookies:
     if cookie["name"] == "access_token":
-        settings_json["cookie"] = cookie["value"]
-        cookies_in_json = [cookie["value"]]
-        settings_json["cookies"] = cookies_in_json
+        settings_json["cookies"] = [cookie["value"]]
         print(cookie["value"])
         # json格式化后写入文件
         with open("./settings.json", "w") as f:
