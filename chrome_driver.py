@@ -84,7 +84,7 @@ def wait_element_for_id(driver, element_id: str, timeout=15):
 
 def create_driver(enable_ui=False):
     chrome_options = webdriver.ChromeOptions()  # 实例化Option对象
-    chrome_options.add_experimental_option("detach", True)  # 不关闭浏览器
+    # chrome_options.add_experimental_option("detach", True)  # 不关闭浏览器
     cache_dir = os.path.expanduser("~/Library/Caches/Selenium/3")
     chrome_options.add_argument("--user-data-dir=" + cache_dir)
     chrome_options.add_argument('--no-sandbox')  # 解决DevToolsActivePort文件不存在的报错
