@@ -72,4 +72,4 @@ os.system("git commit -m 'update cookie'")
 os.system("git pull --rebase")
 os.system("git push")
 
-driver.quit()
+#driver.quit()
