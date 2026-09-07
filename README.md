@@ -7,6 +7,8 @@
 | 页面 | 路径 |
 | --- | --- |
 | 政策目录首页 | `/` |
+| 掌上梁山隐私政策（中英文） | `/apps/liangshan/privacy.html` |
+| 掌上梁山技术支持（中英文） | `/apps/liangshan/` |
 | HumanBrain 隐私政策（中英文） | `/apps/humanbrain/privacy.html` |
 | HumanBrain 技术支持（中英文） | `/apps/humanbrain/` |
 | 通用隐私政策 | `/apps/app-privacy-policy.html` |
