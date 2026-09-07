@@ -1,116 +1,97 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="alternative" href="/atom.xml" title="andforce" type="application/atom+xml"><link rel="icon" href="/favicon.png"><title>andforce</title><link rel="stylesheet" href="/css/main.css" type="text/css"><!--[if lt IE 9]><script>(function(a,b){a="abbr article aside audio bdi canvas data datalist details dialog figcaption figure footer header hgroup main mark meter nav output progress section summary template time video".split(" ");for(b=a.length-1;b>=0;b--)document.createElement(a[b])})()</script><![endif]--></head><body><header class="head"><h1 class="head-title u-fl"><a href="/">andforce</a></h1>
-	<nav class="head-nav u-fr">
-	<ul class="head-nav__list">
-	<li class="head-nav__item"><a href="/archives" class="head-nav__link">文章</a></li>
-</ul>
-</nav>
-</header><main class="main"><article class="post"><header class="post__head"><time datetime="2015-10-21T10:45:52.000Z" class="post__time">October 21, 2015</time><h1 class="post__title"><a href="/2015/10/21/android-usb-devices/">android_usb_devices</a></h1><hr/></header><div class="post__main echo"><p>有时候android设备链接到电脑的时候会显示<code>error:insufficient permissions for device</code>,解决方法就是在<code>/etc/udev/rules.d/51-android.rules</code> 加入设备的<code>idVender</code>和<code>idProduct</code>,于是就有了下面这个自动添加的脚本.<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">#!/bin/bash&#10;RULES=/etc/udev/rules.d/51-android.rules&#10;TMP_USB_1=tmp_usb_1&#10;TMP_USB_2=tmp_usb_2&#10;TMP_USB=diff_usb&#10;&#10;echo -n &#34;&#35831;&#25226;&#25163;&#26426;&#38142;&#25509;&#30005;&#33041;&#21518;,&#25353;&#22238;&#36710;:&#34;&#10;&#10;read user_input&#10;lsusb &#62; $TMP_USB_1&#10;cat -n $TMP_USB_1&#10;&#10;echo -n &#34;&#35831;&#25226;&#25163;&#26426;&#25300;&#25481;&#21518;,&#25353;&#22238;&#36710;:&#34;&#10;read user_input&#10;&#10;lsusb &#62; $TMP_USB_2&#10;cat -n $TMP_USB_2&#10;&#10;diff $TMP_USB_1 $TMP_USB_2 &#62; $TMP_USB&#10;&#10;diff_usb_str=`sed -n &#39;2p&#39; $TMP_USB`&#10;#echo $&#123;diff_usb_str&#125;&#10;&#10;sub_str=$&#123;diff_usb_str:25:9&#125;&#10;#echo $sub_str&#10;&#10;idVendor=$&#123;sub_str:0:4&#125;&#10;idProduct=$&#123;sub_str:5:4&#125;&#10;&#10;insert=&#39;SUBSYSTEM==\&#34;usb\&#34;, ATTRS&#123;idVendor&#125;==\&#34;&#39;$&#123;idVendor&#125;&#39;\&#34;, ATTRS&#123;idProduct&#125;==\&#34;&#39;$&#123;idProduct&#125;&#39;\&#34;,MODE=\&#34;0666\&#34;&#39;&#10;&#10;sudo touch $RULES&#10;sudo sh -c &#34;echo $insert &#62;&#62; $RULES&#34;&#10;sudo chmod a+x $RULES&#10;&#10;echo -n &#34;&#35831;&#20877;&#27425;&#25226;&#25163;&#26426;&#38142;&#25509;&#30005;&#33041;,&#20043;&#21518;&#25353;&#22238;&#36710;:&#34;&#10;read user_input&#10;&#10;adb kill-server &#38;&#38; adb devices&#10;&#10;echo &#34;&#30475;&#21040;&#35774;&#22791;&#34920;&#31034;&#24050;&#32463;&#25104;&#21151;&#20102;,&#22914;&#26524;&#36824;&#26159;&#27809;&#26377;&#26174;&#31034;&#27491;&#24120;,&#37325;&#21551;&#19968;&#19979;&#30005;&#33041;&#23601;&#22909;&#20102;&#34;&#10;&#10;rm $TMP_USB $TMP_USB_1 $TMP_USB_2</span><br></pre></td></tr></table></figure></p>
-<h3 id="使用方法">使用方法</h3><blockquote>
-<p>把上面脚本内容保存到<code>usb.sh</code>中,执行<code>bash usb.sh</code>就行.</p>
-</blockquote>
-</div><footer class="post__foot u-cf"><a class="post__foot-link u-fr"></a></footer></article><article class="post"><header class="post__head"><time datetime="2015-10-13T05:47:38.000Z" class="post__time">October 13, 2015</time><h1 class="post__title"><a href="/2015/10/13/gitconfig/">gitconfig</a></h1><hr/></header><div class="post__main echo"><h3 id="配置git,把下面脚本保存到~/-gitconfig即可-">配置git,把下面脚本保存到<code>~/.gitconfig</code>即可.</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line">[core]&#10;&#9;autocrlf = false&#10;&#9;excludesfile=~/.gitignore&#10;&#9;editor = vim&#10;[user]&#10;[merge]&#10;&#9;summary = true&#10;&#9;tool = meld&#10;[diff]&#10;&#9;renames = copy&#10;&#9;tool = meld&#10;&#9;wordregex = &#34;[[:alnum:]_]+|[^[:space:]]&#34;&#10;&#9;external = /bin/git-meld.sh&#10;[i18n]&#10;&#9;logoutputencoding = UTF-8&#10;[color]&#10;&#9;diff = auto&#10;&#9;status = true&#10;&#9;branch = auto&#10;&#9;interactive = auto;&#10;&#9;ui = auto;&#10;[showbranch]&#10;&#9;default = --topo-order&#10;&#9;default = heads/*&#10;[status]&#10;&#9;submodulesummary = -1&#10;[format]&#10;&#9;numbered = auto&#10;[push]&#10;&#9;default = tracking&#10;&#10;[alias]&#10;&#9;sed = !git ls-files --stage | grep ^100 | awk &#39;&#123;print $4&#125;&#39; | xargs sed -r -s&#10;&#9;slg = shortlog --pretty=&#39;format:%h %s&#39;&#10;&#9;locate = !sh -c &#39;git ls-files | grep --color=auto &#34;$1&#34;&#39; -&#10;&#9;co=checkout&#10;        ci=commit -s -a&#10;        br=branch&#10;        st=status&#10;        cp=cherry-pick&#10;        cr=cherry&#10;        rb=rebase&#10;        fp=format-patch&#10;        hist=log --pretty=format:\&#34;%Cred%h %Cblue%ad %Cred| %Creset%s%d %Cgreen[%an]\&#34; --graph --date=short&#10;        flog=log --pretty=fuller --graph</span><br></pre></td></tr></table></figure>
-</div><footer class="post__foot u-cf"><a class="post__foot-link u-fr"></a></footer></article><article class="post"><header class="post__head"><time datetime="2015-10-13T04:58:16.000Z" class="post__time">October 13, 2015</time><h1 class="post__title"><a href="/2015/10/13/switch-jdk-version/">switch-jdk-version</a></h1><hr/></header><div class="post__main echo"><h3 id="很多时候,我们在开发的时候,需要不同的jdk,手动切换比较麻烦,因此我写了个脚本,方便快速切换JDK版本-">很多时候,我们在开发的时候,需要不同的jdk,手动切换比较麻烦,因此我写了个脚本,方便快速切换JDK版本.</h3><figure class="highlight"><table><tr><td class="code"><pre><span class="line">#!/bin/bash&#10;&#10;JAVA_6_HOME=/usr/lib/jvm/java-6-openjdk-amd64/&#10;JAVA_7_HOME=/usr/lib/jvm/java-7-openjdk-amd64/&#10;JAVA_8_HOME=/usr/lib/jvm/java-8-openjdk-amd64/&#10;&#10;echo -e &#34;\n&#36755;&#20837;&#32534;&#21495;&#20197;&#36873;&#25321;JDK&#29256;&#26412;:\n\t1. JDK6($JAVA_6_HOME) \n\t2. JDK7($JAVA_7_HOME) \n\t3. JDK8($JAVA_8_HOME)\n&#34;&#10;echo -n &#34;&#30452;&#25509;&#22238;&#36710;&#20250;&#30452;&#25509;&#36873;&#25321;JDK7:&#34;&#10;&#10;read jdk_version&#10;case $jdk_version in&#10;    jdk6|1)&#10; export JAVA_HOME=$JAVA_6_HOME&#10; sudo rm /usr/bin/java &#38;&#38; sudo ln -s $JAVA_6_HOME/bin/java /usr/bin/java&#10; sudo rm /usr/bin/javac &#38;&#38; sudo ln -s $JAVA_6_HOME/bin/javac /usr/bin/javac&#10; ;;&#10;    jdk7|2)&#10; export JAVA_HOME=$JAVA_7_HOME&#10; sudo rm /usr/bin/java &#38;&#38; sudo ln -s $JAVA_7_HOME/bin/java /usr/bin/java&#10; sudo rm /usr/bin/javac &#38;&#38; sudo ln -s $JAVA_7_HOME/bin/javac /usr/bin/javac&#10; ;;&#10;    jdk8|3)&#10; export JAVA_HOME=$JAVA_8_HOME&#10; sudo rm /usr/bin/java &#38;&#38; sudo ln -s $JAVA_8_HOME/bin/java /usr/bin/java&#10; sudo rm /usr/bin/javac &#38;&#38; sudo ln -s $JAVA_8_HOME/bin/javac /usr/bin/javac&#10; ;;&#10;    *)&#10; export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/&#10; sudo rm /usr/bin/java &#38;&#38; sudo ln -s /usr/lib/jvm/java-7-openjdk-amd64/bin/java /usr/bin/java&#10; sudo rm /usr/bin/javac &#38;&#38; sudo ln -s /usr/lib/jvm/java-7-openjdk-amd64/bin/javac /usr/bin/javac&#10; ;;&#10;esac&#10;&#10;export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH&#10;export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib:$JAVA_HOME/jre/lib&#10;&#10;java -version</span><br></pre></td></tr></table></figure>
-</div><footer class="post__foot u-cf"><a class="post__foot-link u-fr"></a></footer></article><article class="post"><header class="post__head"><time datetime="2015-10-10T05:31:41.000Z" class="post__time">October 10, 2015</time><h1 class="post__title"><a href="/2015/10/10/android-full-sdk/">android-full-sdk</a></h1><hr/></header><div class="post__main echo"><p>把framework中<code>@hide</code>的方法或者类打到jar中方便使用<br><figure class="highlight"><table><tr><td class="code"><pre><span class="line">ANDROID_BUILD_TOP=$(pwd)&#10;&#10;rm -r sdk/sdk_full&#10;mkdir sdk/sdk_full&#10;&#10;echo &#34;start copy jar files&#34;&#10;cp out/target/common/obj/JAVA_LIBRARIES/android.test.runner_intermediates/classes.jar sdk/sdk_full/test-classe.jar&#10;cp out/target/common/obj/JAVA_LIBRARIES/core_intermediates/classes.jar sdk/sdk_full/core-classes.jar&#10;cp out/target/common/obj/JAVA_LIBRARIES/ext_intermediates/classes.jar sdk/sdk_full/ext-classes.jar&#10;&#10;cp out/target/common/obj/JAVA_LIBRARIES/framework_intermediates/classes.jar sdk/sdk_full/framework-classes.jar&#10;cp out/target/common/obj/JAVA_LIBRARIES/android-common_intermediates/classes.jar sdk/sdk_full/common-classes.jar&#10;&#10;cp out/target/common/obj/JAVA_LIBRARIES/com.android.phone.common_intermediates/classes.jar sdk/sdk_full/phone-classes.jar&#10;cp out/target/common/obj/JAVA_LIBRARIES/pm_intermediates/classes.jar sdk/sdk_full/pm-classes.jar&#10;cp out/target/common/obj/JAVA_LIBRARIES/com.android.vcard_intermediates/classes.jar sdk/sdk_full/vcard-classes.jar&#10;cp out/target/common/obj/JAVA_LIBRARIES/calendar-common_intermediates/classes.jar sdk/sdk_full/calendarcommon-classes.jar&#10;cp out/target/common/obj/JAVA_LIBRARIES/filterfw_intermediates/classes.jar sdk/sdk_full/filterfw-classes.jar&#10;&#10;echo &#34;copy jar files ok!!!&#34;&#10;&#10;cd $ANDROID_BUILD_TOP/sdk/sdk_full/&#10;&#10;echo &#34;start jar xvf all jar&#34;&#10;jar xvf test-classe.jar&#10;jar xvf core-classes.jar&#10;jar xvf ext-classes.jar&#10;jar xvf framework-classes.jar&#10;jar xvf common-classes.jar&#10;jar xvf phone-classes.jar&#10;jar xvf pm-classes.jar&#10;jar xvf vcard-classes.jar&#10;jar xvf calendarcommon-classes.jar&#10;jar xvf filterfw-classes.jar&#10;&#10;echo &#34;jar xvf all jar ok!!!&#34;&#10;&#10;echo &#34;del all jar&#34;&#10;rm *.jar&#10;&#10;echo &#34;start cvf all jar&#34;&#10;jar cvf ./android-full.jar *&#10;echo &#34; create full sdk successfully!!! &#34;&#10;&#10;cd $ANDROID_BUILD_TOP</span><br></pre></td></tr></table></figure></p>
-<h2 id="如何使用">如何使用</h2><p>把上面的脚本放到源码根目录执行一下就好了</p>
-</div><footer class="post__foot u-cf"><a class="post__foot-link u-fr"></a></footer></article><article class="post"><header class="post__head"><time datetime="2015-09-27T03:08:33.000Z" class="post__time">September 27, 2015</time><h1 class="post__title"><a href="/2015/09/27/theme-demo/">主题Denmo</a></h1><hr/></header><div class="post__main echo">
-<p><a href="http://andforce.com">这是一个连接Demo</a></p>
-<h1 id="一级标题">一级标题</h1><h2 id="二级标题">二级标题</h2><h3 id="三级标题">三级标题</h3><h4 id="四级标题">四级标题</h4><h5 id="五级标题">五级标题</h5><h6 id="六级标题">六级标题</h6><h2 id="有序列表展示">有序列表展示</h2><ol>
-<li>有序列表</li>
-<li>有序列表</li>
-<li>有序列表</li>
-</ol>
-<h2 id="无序列表展示">无序列表展示</h2><ul>
-<li>无序列表</li>
-<li>无序列表</li>
-<li>无序列表</li>
-</ul>
-<h2 id="引用展示">引用展示</h2><blockquote>
-<p>引用引用引用引用引用引用引用引用引用引用引用引用引用引用引用引用引用引用</p>
-</blockquote>
-<h2 id="Java代码块">Java代码块</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">KeyboardFrameLayout</span> <span class="keyword">extends</span> <span class="title">FrameLayout</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> KeyboardHelper mHelper;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">KeyboardFrameLayout</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyle)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyle);</span><br><span class="line">        mHelper = <span class="keyword">new</span> KeyboardHelper(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">KeyboardFrameLayout</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs);</span><br><span class="line">        mHelper = <span class="keyword">new</span> KeyboardHelper(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">KeyboardFrameLayout</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context);</span><br><span class="line">        mHelper = <span class="keyword">new</span> KeyboardHelper(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOnKeyboardStateListener</span><span class="params">(OnKeyboardStateChangeListener listener)</span> </span>&#123;</span><br><span class="line">        mHelper.setOnKeyboardStateListener(listener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> KeyboardHelper <span class="title">getKeyBoardHelper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mHelper;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onLayout(changed, l, t, r, b);</span><br><span class="line">        mHelper.init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Shell代码块">Shell代码块</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">WDYdeMacBook-Pro:vendor andforce$ ls -al&#10;total 24&#10;drwxr-xr-x  5 andforce  staff   170  9 27 10:56 .&#10;drwxr-xr-x  8 andforce  staff   272  9 27 08:43 ..&#10;-rw-r--r--  1 andforce  staff  2321  9 27 08:43 _echo.styl&#10;-rw-r--r--  1 andforce  staff  1053  9 27 08:43 _highlight.styl&#10;-rw-r--r--  1 andforce  staff  2226  9 27 08:43 _normalize.styl</span><br></pre></td></tr></table></figure></div><footer class="post__foot u-cf"><a class="post__foot-link u-fr"></a></footer></article><article class="post"><header class="post__head"><time datetime="2015-09-26T03:43:44.000Z" class="post__time">September 26, 2015</time><h1 class="post__title"><a href="/2015/09/26/dev-software/">一个程序员的软件</a></h1><hr/></header><div class="post__main echo"><p>工欲善其事，必先利其器。列举一下我平时开发时候用到的软件。</p>
-<h1 id="完整软件">完整软件</h1><ul>
-<li><p><a href="http://www.cockos.com/licecap/" target="_blank" rel="external">Licecap</a><br>简单易用的录制<code>gif</code>的软件.</p>
-</li>
-<li><p><a href="http://www.charlesproxy.com/" target="_blank" rel="external">Charles</a><br>Http&amp;Https抓包利器.</p>
-</li>
-<li><p><a href="http://www.iterm2.com/" target="_blank" rel="external">iTerm2</a><br>好用的命令行工具.</p>
-</li>
-<li><p><a href="http://nerdery.com/json-accelerator" target="_blank" rel="external">JSON Accelerator</a><br>可以把json字符串直接转换成 bean 类文件.</p>
-</li>
-<li><p><a href="http://www.bettertouchtool.net/" target="_blank" rel="external">BetterToucTool</a><br>快捷按键定制神器</p>
-</li>
-</ul>
-<h1 id="软件插件">软件插件</h1><ul>
-<li><p><a href="https://chrome.google.com/webstore/detail/capture-webpage-screensho/mcbpblocgmgfnpjjppndjkmgjaogfceg" target="_blank" rel="external">FireShot</a><br>Chrome插件，可以滚动截图网页.</p>
-</li>
-<li><p><a href="https://chrome.google.com/webstore/detail/evernote-web-clipper/pioclpoplcdbaefihamjohnefbikjilc" target="_blank" rel="external">印象笔记-剪藏</a><br>一键收藏网页内容</p>
-</li>
-</ul>
-</div><footer class="post__foot u-cf"><a class="post__foot-link u-fr"></a></footer></article><article class="post"><header class="post__head"><time datetime="2015-09-22T11:47:45.000Z" class="post__time">September 22, 2015</time><h1 class="post__title"><a href="/2015/09/22/apk-keystore/">Apk签名总汇</a></h1><hr/></header><div class="post__main echo"><p>开发中,Apk签名是一件不大也不小的事,如果你做过<code>微博</code>相关的开发,你可能遇到如下情景:</p>
-<blockquote>
-<p>用Eclipse或者AS直接点run生成的apk跑在手机上根本不能授权成功,每次需要导出release版本,很烦.</p>
-</blockquote>
-<p>如果你基于系统源码开发或者二次开发系统预置App,你的流程可能是:</p>
-<blockquote>
-<p>mm 或者 mmm 编译出apk,之后再push 到/system/app/ 下,或者用adb install -r 安装到手机.<br>否根本无法安装,因为签名不一样.</p>
-</blockquote>
-<p>因此我搜集整理了如下内容,解决了以上两个难题,任何app都可以直接再IDE中直接run,并debug.</p>
-<h1 id="日常开发">日常开发</h1><h2 id="修改Eclips或者Android_Studio的默认签名文件">修改Eclips或者Android Studio的默认签名文件</h2><blockquote>
-<p>通常情况下,我们debug版本的apk和正式release的apk签名是不一样.特别开发一些有签名限制<br>的App的时候,就造成了调试上的不方便.</p>
-</blockquote>
-<h3 id="如何修改?">如何修改?</h3><ul>
-<li><p>Eclipse</p>
-<blockquote>
-<p>Eclips -&gt; Window -&gt; Preference -&gt; Androi -&gt; Buil.<br>在 <code>Custom debug keystore</code> 指定自己的 <code>debug.keystore</code> 就可以了.(注意签名文件的名字<br>不必是<code>debug.keystore</code>).</p>
-</blockquote>
-</li>
-<li><p>Androi的 Studio</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">android &#123;&#10;    signingConfigs &#123;&#10;        debug &#123;&#10;            storeFile file(&#34;debug.keystore&#34;)&#10;        &#125;&#10;    &#125;&#10;&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="疑问?">疑问?</h3><blockquote>
-<p>如何创建自己的<code>debug.keystore</code>?</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">keytool -genkey -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android -keyalg RSA -validity 14000&#10;// &#36825;&#26679;&#20320;&#23601;&#21019;&#24314;&#20102;&#19968;&#20010; debug.keystore</span><br></pre></td></tr></table></figure>
-<h3 id="如何把现有签名文件,转换成Eclipse或Android_Studio可用的debug-keystore?">如何把现有签名文件,转换成Eclipse或Android Studio可用的<code>debug.keystore</code>?</h3><blockquote>
-<p>假如你现在的签名文件是:my.keystore.</p>
-</blockquote>
-<ul>
-<li>修改<code>my.keystore</code> 的密码为:<code>android</code></li>
-</ul>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">keytool -storepasswd -keystore my.keystore</span><br></pre></td></tr></table></figure>
-<ul>
-<li>修改<code>my.keystore</code> 的<code>alias</code>为:<code>androiddebugkey</code></li>
-</ul>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">keytool -changealias -keystore my.keystore -alias my_name -destalias androiddebugkey</span><br></pre></td></tr></table></figure>
-<ul>
-<li>修改<code>alias</code> 的密码为:<code>android</code></li>
-</ul>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">keytool -keypasswd -keystore my.keystore -alias androiddebugkey</span><br></pre></td></tr></table></figure>
-<p>执行完上面三步,你的<code>debug.keystore</code> 就创建完成了,替换上去就行.</p>
-<h1 id="系统源码开发">系统源码开发</h1><h2 id="源码签名文件在哪?">源码签名文件在哪?</h2><blockquote>
-<p>SOURCE_CODE/build/target/product/security/</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">$:ls&#10;media.pk8       platform.pk8       README    shared.pk8       signapk.jar  testkey.x509.pem&#10;media.x509.pem  platform.x509.pem  Root.zip  shared.x509.pem  testkey.pk8  update.zip</span><br></pre></td></tr></table></figure>
-<h2 id="但如果你在一家手机厂商工作,厂商一般不会直接用而是会进行定制:">但如果你在一家手机厂商工作,厂商一般不会直接用而是会进行定制:</h2><blockquote>
-<p>SOURCE_CODE/vendor/CUSTOM_VENTER_NAME/security/</p>
-</blockquote>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">$: ls&#10;media.pk8       platform.pk8       releasekey.pk8       shared.pk8       testkey.pk8&#10;media.x509.pem  platform.x509.pem  releasekey.x509.pem  shared.x509.pem  testkey.x509.pem</span><br></pre></td></tr></table></figure>
-<h2 id="如何用系统签名文件签名apk?">如何用系统签名文件签名apk?</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">java -jar platform.x509.pem platform.pk8 UnSign.apk Signed.apk</span><br></pre></td></tr></table></figure>
-<h2 id="zipalign优化apk">zipalign优化apk</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">zipalign -v 4 MyDemo_signed.apk MyDemo_new.apk</span><br></pre></td></tr></table></figure>
-<h2 id="是否用zipalign优化过">是否用zipalign优化过</h2><figure class="highlight"><table><tr><td class="code"><pre><span class="line">zipalign -c -v 4 MyDemo.apk</span><br></pre></td></tr></table></figure>
-<h2 id="如何把platform-x509-pem_platform-pk8_转成debug-keystore?">如何把<code>platform.x509.pem platform.pk8</code> 转成<code>debug.keystore</code>?</h2><ul>
-<li>生成shared.priv.pem</li>
-</ul>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">openssl pkcs8 -in platform.pk8 -inform DER -outform PEM -out shared.priv.pem -nocrypt</span><br></pre></td></tr></table></figure>
-<ul>
-<li>生成pkcs12</li>
-</ul>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">openssl pkcs12 -export -in platform.x509.pem -inkey shared.priv.pem -out shared.pk12 -name androiddebugkey&#10;// &#22914;&#26524;&#29983;&#25104;&#30340;`debug.keystore`&#35201;&#29992;&#22312;Eclipse&#20013;&#20351;&#29992;,&#35831;&#36755;&#20837;&#23494;&#30721;:`android`,&#21542;&#21017;&#35831;&#36755;&#20837;&#33258;&#24049;&#30340;&#31614;&#21517;&#21363;&#21487;.</span><br></pre></td></tr></table></figure>
-<ul>
-<li>生成<code>debug.keystore</code></li>
-</ul>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">keytool -importkeystore -deststorepass android -destkeypass android -destkeystore debug.keystore -srckeystore shared.pk12 -srcstoretype PKCS12 -srcstorepass android -alias androiddebugkey</span><br></pre></td></tr></table></figure></div><footer class="post__foot u-cf"><a class="post__foot-link u-fr"></a></footer></article></main><footer class="foot"><div class="foot-copy u-fl">
-<a href="https://beian.miit.gov.cn" >京ICP备15021465号-1</a>
-</bdi></div><menu class="page-menu u-fr"><li class="page-menu__item"><span title="Previous" class="page-menu__link icon-arrow-left page-menu__link--disabled"></span></li><li class="page-menu__item"><span title="Next" class="page-menu__link icon-arrow-right page-menu__link--disabled"></span></li></menu></footer></body></html>
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="andforce 应用的隐私政策、使用条款与技术支持。">
+    <title>App 隐私政策 · andforce</title>
+    <link rel="icon" href="data:,">
+    <style>
+      :root {
+        color-scheme: light dark;
+        --background: #f5f7fb;
+        --surface: #fff;
+        --text: #15283d;
+        --muted: #526377;
+        --border: #dbe3ed;
+        --link: #1358a1;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--background);
+        color: var(--text);
+        font: 16px/1.75 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      main { max-width: 800px; margin: auto; padding: 56px 24px; }
+      header { margin-bottom: 36px; }
+      .brand { margin: 0 0 8px; color: var(--muted); font-size: 14px; }
+      h1 { margin: 0; font-size: clamp(28px, 5vw, 38px); line-height: 1.3; }
+      header p:last-child { margin: 12px 0 0; color: var(--muted); }
+      section {
+        margin: 20px 0;
+        padding: 24px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+      }
+      h2 { margin: 0 0 16px; font-size: 20px; line-height: 1.4; }
+      ul { margin: 0; padding: 0; list-style: none; }
+      li + li { margin-top: 12px; }
+      a { color: var(--link); text-underline-offset: 4px; }
+      a:focus-visible { outline: 3px solid var(--link); outline-offset: 5px; }
+      footer { margin-top: 32px; color: var(--muted); font-size: 14px; }
+      @media (max-width: 520px) {
+        main { padding: 32px 16px; }
+        section { padding: 22px 20px; }
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --background: #0d1520;
+          --surface: #152232;
+          --text: #edf4fc;
+          --muted: #b2c1d3;
+          --border: #2e435c;
+          --link: #8dc2ff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="brand">andforce</p>
+        <h1>App 隐私政策</h1>
+        <p>查看各应用的隐私政策、使用条款与技术支持。</p>
+      </header>
+
+      <section aria-labelledby="humanbrain">
+        <h2 id="humanbrain" lang="en">HumanBrain</h2>
+        <ul>
+          <li><a href="apps/humanbrain/privacy.html">隐私政策 / <span lang="en">Privacy Policy</span></a></li>
+          <li><a href="apps/humanbrain/">技术支持 / <span lang="en">Support</span></a></li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="general-policies">
+        <h2 id="general-policies">通用隐私政策</h2>
+        <ul>
+          <li><a href="apps/app-privacy-policy.html">隐私政策</a></li>
+          <li><a href="apps/app-privacy-policy-no-data.html">隐私政策（不收集数据）</a></li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="other-documents">
+        <h2 id="other-documents">其他政策与条款</h2>
+        <ul>
+          <li><a href="privacy.html">隐私政策（中文）</a></li>
+          <li><a href="privacy_app.html" lang="en">Privacy Policy (English)</a></li>
+          <li><a href="terms_of_use.html">使用条款（中文）</a></li>
+          <li><a href="terms_of_use_app.html" lang="en">Terms of Use (English)</a></li>
+        </ul>
+      </section>
+
+      <footer>各应用的数据处理方式以其对应的隐私政策为准。</footer>
+    </main>
+  </body>
+</html>

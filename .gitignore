@@ -1,5 +1,2 @@
-host.txt
 .DS_Store
 .idea/
-__pycache__/
-venv/
